@@ -79,12 +79,12 @@ app.use((req,res,next)=>{
     next()
 });
 
+app.use("/", userRouter);
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/", userRouter);
 
-app.all((err,req,res,next)=>{
-    next(new ExpressError, (404,"Oops Page Not Found :3"));
+app.all("*",(req,res,next)=>{
+    next(new ExpressError(404,"Oops Page Not Found :3"));
 });
 
 app.use((err,req,res,next)=>{
