@@ -5,7 +5,7 @@ const Review = require("./models/review");
 
 module.exports.isLoggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
-        req.session.redirectUrl = req.originalUrl;
+        req.session.redirectUrl = req.orignalUrl;
         req.flash("error", "Please log in to add a new stay!");
         res.redirect("/login");
     };

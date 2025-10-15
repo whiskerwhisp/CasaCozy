@@ -16,27 +16,11 @@ async function main(){
 
 const initDB = async ()=>{
    await Listing.deleteMany({});
-   
-   // Get or create a default user for the sample data
-   const User = require("../models/user.js");
-   let user = await User.findOne({});
-   
-   if (!user) {
-     console.log("No users found. Creating a default user for sample data...");
-     // Create a default user for the sample data
-     user = new User({ 
-       email: "demo@casacozy.com", 
-       username: "demo_host" 
-     });
-     await User.register(user, "demo123");
-     console.log("Default user created: demo@casacozy.com / demo123");
-   }
-   
    initData.data = initData.data.map((obj) =>({
-   ...obj, owner: user._id
+   ...obj, owner:"66ea7e29b6f47663da6dbf7e"
    }));
    await Listing.insertMany(initData.data);
-   console.log("Sample data was initialized successfully!");
+   console.log("data was initialized");
 
 };
 
