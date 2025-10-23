@@ -1,8 +1,22 @@
 const Listing = require("../models/listing");
 
-module.exports.index =  async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+module.exports.index = async (req, res) => {
+    const { search } = req.query; // extract search query
+    let allListings;
+
+    if (search) {
+        allListings = await Listing.find({
+            $or: [
+                { title: { $regex: search, $options: "i" } },
+                { location: { $regex: search, $options: "i" } },
+                { country: { $regex: search, $options: "i" } },
+            ],
+        });
+    } else {
+        allListings = await Listing.find({});
+    }
+
+    res.render("listings/index.ejs", { allListings, search });
 };
 
 module.exports.new = (req, res) => {
@@ -52,7 +66,7 @@ module.exports.edit= async (req, res) => {
 
    if(typeof req.file !=="undefined"){
     let url = req.file.path;
-    let filename = req.file.finename;
+    let filename = req.file.filename;
     listing.image = {url,filename};
     await listing.save();
    }

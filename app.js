@@ -14,7 +14,7 @@ const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const User = require("./models/user.js");
+const User = require("./models/user.js");//importing user model
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
@@ -33,10 +33,11 @@ async function main() {
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
+
+app.use(express.urlencoded({ extended: true }));//to parse the body
+app.use(methodOverride("_method")); //to use put and delete methods
 app.engine("ejs", ejsMate);
-app.use(express.static(path.join(__dirname,"/public")));
+app.use(express.static(path.join(__dirname,"/public"))); //serve static files (Css,js)
 
 const store = MongoStore.create({
     mongoUrl: DB_URL,
@@ -89,7 +90,6 @@ app.all((err,req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     let{statusCode=500,message="Something went wrong :("}=err;
-    // res.status(statusCode).send(message);
     res.status(statusCode).render("listings/error.ejs",{message});
 });
 
