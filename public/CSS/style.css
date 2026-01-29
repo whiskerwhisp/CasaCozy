@@ -87,6 +87,7 @@ footer p {
 .card-img-top {
     border-radius: 0.75rem !important;
     width: 100% !important;
+    height: 300px;  
     object-fit: cover !important;
 }
 
